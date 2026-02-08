@@ -63,7 +63,7 @@ impl Card {
     }
 
     pub fn rank(&self) -> Rank {
-        let r = (&self.as_u32() >> 8) & 0b1111; // mask onto rank nibble
+        let r = (&self.as_u32() >> 8) & 0xF; // mask onto rank nibble
         unsafe {
             // safety ensured by u8 repr of rank
             std::mem::transmute(r as u8)
@@ -71,7 +71,7 @@ impl Card {
     }
 
     pub fn suit(&self) -> Suit {
-        let s_one_hot = (&self.as_u32() >> 12) & 0b1111; // mask onto suit nibble
+        let s_one_hot = (&self.as_u32() >> 12) & 0xF; // mask onto suit nibble
         let s = s_one_hot.trailing_zeros(); // 1 instr; trailing(0100) = 2 = spades etc
         unsafe {
             // safety ensured by u8 repr of rank
@@ -214,8 +214,8 @@ mod tests {
         // manually check bytes for Jh
         let jh_prime_repr = PRIMES[9];
         let jh_rank_nibble = (9_u32 << 8) as u32;
-        let jh_suit_one_hot = (0b0001 << 12) as u32; // see Card docstring for one-hot schema
-        let jh_rank_one_hot = (0b0_0010_0000_0000 << 16) as u32;
+        let jh_suit_one_hot = (0x1 << 12) as u32; // see Card docstring for one-hot schema
+        let jh_rank_one_hot = (0x0200 << 16) as u32;
         let jh_raw = Card(jh_prime_repr + jh_rank_nibble + jh_suit_one_hot + jh_rank_one_hot);
 
         let jh_parsed = "Jh".parse::<Card>().unwrap();

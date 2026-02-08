@@ -29,7 +29,7 @@ impl FiveHand {
         let hand = self.as_u32_array();
         let mut p = 1;
         for card in hand {
-            p *= card & 0b111_111
+            p *= card & 0x3F;
         }
         match is_flush(&hand) {
             true => *FIVE_FLUSH_HASH.get(&p).unwrap(),
@@ -44,7 +44,7 @@ impl FiveHand {
 ///     flush <==> c1 & c2 & c3 & c4 & c5 & (0b1111 << 12)
 /// where c_i is card i as u32 w/ xxxb:bbbb|bbbb:bbbb|ssss:rrrr|xxpp:pppp repr
 fn is_flush(&hand: &[u32; 5]) -> bool {
-    let bit_mask: u32 = 0b1111 << 12; // 1's at ssss in u32 Card repr
+    let bit_mask: u32 = 0xF << 12; // 1's at ssss in u32 Card repr
     !((hand[0] & hand[1] & hand[2] & hand[3] & hand[4] & bit_mask) == 0b0000)
 }
 
