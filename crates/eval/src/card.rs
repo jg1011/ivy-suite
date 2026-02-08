@@ -52,7 +52,7 @@ impl Card {
         let p: u32 = PRIMES[r as usize];
         // bit recastings && shift to xxxb:bbbb|bbbb:bbbb|ssss:rrrr|xxpp:pppp
         let r_bits = r << 8; // 0 <= r <= 12 < 15 ; safe cast to u4
-        let s_bitflag: u32 = (1 << s) << 12; // one hot: 0x0000=0x0001 ; 0x0001=0x0010 ; 0x0010=0x0100 ; 0x0011=0x1000
+        let s_bitflag: u32 = (1 << s) << 12; // one hot: 1 << s gives 1 in pos s  
         let r_bitflag: u32 = (1 << r) << 16; // one hot: same trick as w/ s_bitflag
         Card(p + r_bits + s_bitflag + r_bitflag)
     }
@@ -206,7 +206,6 @@ mod tests {
 
     #[test]
     fn test_card_parse_successes() {
-        // assert not err in correct format case
         assert!("Th".parse::<Card>().is_ok());
         assert!("As".parse::<Card>().is_ok()); // rip lemmy
         assert!("4d".parse::<Card>().is_ok());
@@ -228,7 +227,7 @@ mod tests {
         assert!(matches!(
             "10h".parse::<Card>(),
             Err(CardParseError::InvalidLength(3))
-        ));
+        )); // use "Th" to get expected behaviour
         assert!(matches!(
             "Xh".parse::<Card>(),
             Err(CardParseError::InvalidRank(_))
