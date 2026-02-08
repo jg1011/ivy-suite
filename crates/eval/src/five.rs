@@ -48,16 +48,18 @@ fn is_flush(&hand: &[u32; 5]) -> bool {
     !((hand[0] & hand[1] & hand[2] & hand[3] & hand[4] & bit_mask) == 0b0000)
 }
 
-// -- parsing -- // 
+// -- parsing -- //
 
 #[derive(Error, Debug, PartialEq)]
 pub enum FiveHandParseError {
     #[error("Card Error")]
     InvalidCard(#[from] CardParseError),
 
-    #[error(r#"Invalid Number of cards, expected five cards: got {0} \n 
-            valid delimiters = {{" ", "-", "_", ",", ";"}} "#)]
-    InvalidNumCards(usize)
+    #[error(
+        r#"Invalid Number of cards, expected five cards: got {0} \n 
+            valid delimiters = {{" ", "-", "_", ",", ";"}} "#
+    )]
+    InvalidNumCards(usize),
 }
 
 impl FromStr for FiveHand {
@@ -65,10 +67,13 @@ impl FromStr for FiveHand {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let delims = [' ', '-', '_', ',', ';'];
-        let card_strs = s.split(|c| delims.contains(&c)).filter(|s| !s.is_empty()).collect::<Vec<&str>>(); 
+        let card_strs = s
+            .split(|c| delims.contains(&c))
+            .filter(|s| !s.is_empty())
+            .collect::<Vec<&str>>();
 
         if card_strs.len() != 5 {
-            return Err(FiveHandParseError::InvalidNumCards(card_strs.len()))
+            return Err(FiveHandParseError::InvalidNumCards(card_strs.len()));
         }
 
         let mut it = card_strs.into_iter();
@@ -86,13 +91,16 @@ impl FromStr for FiveHand {
     }
 }
 
-
-// -- displaying -- // 
+// -- displaying -- //
 
 impl fmt::Display for FiveHand {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let cards = self.as_card_array();
-        write!(f, "{} {} {} {} {}", cards[0], cards[1], cards[2], cards[3], cards[4])
+        write!(
+            f,
+            "{} {} {} {} {}",
+            cards[0], cards[1], cards[2], cards[3], cards[4]
+        )
     }
 }
 
@@ -101,14 +109,16 @@ impl fmt::Debug for FiveHand {
         let raw = self.as_u32_array();
         write!(f, "FiveHand([")?;
         for (i, val) in raw.iter().enumerate() {
-            if i > 0 { write!(f, ", ")?; }
+            if i > 0 {
+                write!(f, ", ")?;
+            }
             write!(f, "{:#010x}", val)?;
         }
         write!(f, "])")
     }
 }
 
-// -- testing -- // 
+// -- testing -- //
 
 #[cfg(test)]
 mod tests {
@@ -136,7 +146,7 @@ mod tests {
             "2h,3d,4s,5c,6h",
             "2h;3d;4s;5c;6h",
             "6d 3d 2d As 9c",
-            "2h  3d , 4s;5c___6h", 
+            "2h  3d , 4s;5c___6h",
         ];
 
         for s in variations {

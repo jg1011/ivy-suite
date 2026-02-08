@@ -21,7 +21,7 @@ mod tests {
     }
 
     #[test]
-    fn assert_rank_dummy_cases() {   
+    fn assert_rank_dummy_cases() {
         let royal_flush = FiveHand::from_str("As Ks Qs Js Ts").unwrap();
         let straight_flush = FiveHand::from_str("9h 8h 7h 6h 5h").unwrap();
         let four_of_a_kind = FiveHand::from_str("Ac Ad Ah As Kc").unwrap();
@@ -34,7 +34,11 @@ mod tests {
         let high_card = FiveHand::from_str("As Kc Jh 8d 3s").unwrap();
         let worst_hand = FiveHand::from_str("7h 5d 4h 3d 2h").unwrap();
 
-        assert_eq!(worst_hand.rank(), 1, "There are worse hands??? ruhuhoh scoobs");
+        assert_eq!(
+            worst_hand.rank(),
+            1,
+            "There are worse hands??? ruhuhoh scoobs"
+        );
 
         assert!(royal_flush.rank() > straight_flush.rank());
         assert!(straight_flush.rank() > four_of_a_kind.rank());
