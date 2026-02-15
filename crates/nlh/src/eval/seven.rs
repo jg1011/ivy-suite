@@ -52,7 +52,7 @@ impl SevenHand {
 
     /// DIVINE zero branching highest rank five-card hand selector
     pub fn best_five_branchless(&self) -> FiveHand {
-        let card_arr = self.as_u32_array(); 
+        let card_arr = self.as_u32_array();
 
         #[cfg(test)]
         if debug_trace() {
@@ -662,9 +662,9 @@ fn find_top_straight_cards_branchless(cards: &[u32; 7], r_seed_ext: u32) -> [u32
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::card::{Card, Rank, Suit};
     use super::super::five::FiveHand;
+    use super::*;
     use itertools::Itertools;
     use std::str::FromStr;
 

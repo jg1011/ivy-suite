@@ -122,8 +122,8 @@ impl fmt::Debug for FiveHand {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::card::{Rank, Suit};
+    use super::*;
 
     #[test]
     fn test_five_hand_parse_accuracy() {
