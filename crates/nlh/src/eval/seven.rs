@@ -1,7 +1,5 @@
-#![allow(unused)]
-
-use crate::card::{Card, CardParseError};
-use crate::five::FiveHand;
+use super::card::{Card, CardParseError};
+use super::five::FiveHand;
 use std::fmt;
 use std::str::FromStr;
 use thiserror::Error;
@@ -665,8 +663,8 @@ fn find_top_straight_cards_branchless(cards: &[u32; 7], r_seed_ext: u32) -> [u32
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::card::{Card, Rank, Suit};
-    use crate::five::FiveHand;
+    use super::super::card::{Card, Rank, Suit};
+    use super::super::five::FiveHand;
     use itertools::Itertools;
     use std::str::FromStr;
 

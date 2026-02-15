@@ -9,16 +9,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
 
 [[package]]
-name = "eval"
-version = "0.0.0"
-dependencies = [
- "itertools",
- "phf",
- "phf_codegen",
- "thiserror",
-]
-
-[[package]]
 name = "fastrand"
 version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -36,6 +26,16 @@ dependencies = [
 [[package]]
 name = "ivy-suite"
 version = "0.0.0"
+
+[[package]]
+name = "nlh"
+version = "0.0.0"
+dependencies = [
+ "itertools",
+ "phf",
+ "phf_codegen",
+ "thiserror",
+]
 
 [[package]]
 name = "phf"
